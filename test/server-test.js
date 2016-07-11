@@ -1,10 +1,10 @@
 const assert = require('assert');
-const app = require('../server');
 const request = require('request');
+const app = require('../server');
 
 describe('Server', () => {
 
-  before(done => { //letting mocha know for tests, listen on port 9876
+  before((done) => { //letting mocha know for tests, listen on port 9876
     this.port = 9876;
 
     this.server = app.listen(this.port, (err, result) => {
@@ -42,7 +42,7 @@ describe('Server', () => {
     this.request.get('/', (error, response) => {
       if(error) { done(error); }
       assert(response.body.includes(title),
-    `"${response.body}" does not include "${title}".`);
+      `"${response.body}" does not include "${title}".`);
     done();
     });
   });
@@ -50,9 +50,8 @@ describe('Server', () => {
 
   describe('POST /pizzas', () => {
 
-    it('should receive and store data', (done) => {
-      assert(true);
-      done();
+    beforeEach(() => {
+      app.locals.pizzas = {};
     });
 
     it('should not return 404', (done) => {
@@ -62,7 +61,25 @@ describe('Server', () => {
         done();
       });
     });
-  })
+
+    it('should receive and store data', (done) => {
+      var validPizza = {
+        pizza: {
+          name: 'A vegan pizza',
+          toppings: [ 'mushrooms', 'onions', 'garlic', 'black olives']
+        }
+      };
+      this.request.post('/pizzas', { form: validPizza}, (error, response) => {
+        if (error) { done(error);}
+
+        var pizzaCount = Object.keys(app.locals.pizzas).length;
+
+        assert.equal(pizzaCount, 1, `Expected 1 pizzas, found ${pizzaCount}`);
+      done();
+    });
+    });
+
+  });
 
 
 });
