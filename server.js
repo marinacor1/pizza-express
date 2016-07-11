@@ -10,8 +10,11 @@ app.locals.title = 'Pizza Express';
 app.set('view engine', 'jade');
 
 app.get('/', (request, response) => {
-  // response.sendFile(path.join(__dirname, '/static/index.html'));
   response.render('index');
+});
+
+app.post('/pizzas', (request, response) => {
+  response.sendStatus(201);
 });
 
 if (!module.parent) {
@@ -19,5 +22,7 @@ app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
 }
+
+app.locals.pizzas = {};
 
 module.exports = app;

@@ -44,7 +44,25 @@ describe('Server', () => {
       assert(response.body.includes(title),
     `"${response.body}" does not include "${title}".`);
     done();
+    });
   });
-});
   });
+
+  describe('POST /pizzas', () => {
+
+    it('should receive and store data', (done) => {
+      assert(true);
+      done();
+    });
+
+    it('should not return 404', (done) => {
+      this.request.post('/pizzas', (error, response) => {
+        if(error) {done(error);}
+        assert.notEqual(response.statusCode, 404);
+        done();
+      });
+    });
+  })
+
+
 });
