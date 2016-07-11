@@ -1,0 +1,32 @@
+{
+  "name": "pizza-express",
+  "version": "1.0.0",
+  "description": "A place to admire pizzas",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marinacor1/pizza-express.git"
+  },
+  "keywords": [
+    "express",
+    "pizza",
+    "yum",
+    "casserole"
+  ],
+  "author": "Marina Corona",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marinacor1/pizza-express/issues"
+  },
+  "homepage": "https://github.com/marinacor1/pizza-express#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.3",
+    "request": "^2.73.0"
+  }
+}
