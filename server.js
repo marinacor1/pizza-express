@@ -23,6 +23,13 @@ app.get('/', (request, response) => {
 app.get('/pizzas/:id', (request, response) => {
   response.sendStatus(200);
 })
+
+app.get('/pizzas/:id'), (request, response) => {
+  var pizza = app.locals.pizzas[request.params.id];
+
+  response.render('pizza', { pizza: pizza});
+});
+
 app.post('/pizzas', (request, response) => {
   var id = gid();
 
