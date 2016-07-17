@@ -3,12 +3,11 @@ const app = express();
 
 const path = require('path');
 const bodyParser = require('body-parser');
-const gid = require('./lib/ids');
+
+const generateId = require('./lib/generate-ids');
 
 app.use(express.static('static'));
-
-// app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'jade');
 
@@ -20,29 +19,25 @@ app.get('/', (request, response) => {
   response.render('index');
 });
 
-app.get('/pizzas/:id', (request, response) => {
-  response.sendStatus(200);
-})
+app.post('/pizzas', (request, response) => {
+	if (!request.body.pizza) { return response.sendStatus(400); }
 
-app.get('/pizzas/:id'), (request, response) => {
-  var pizza = app.locals.pizzas[request.params.id];
+  var id = generateId();
 
-  response.render('pizza', { pizza: pizza});
+  app.locals.pizzas[id] = request.body.pizza;
+
+  response.redirect('/pizzas/' + id);
 });
 
-app.post('/pizzas', (request, response) => {
-  var id = gid();
-
-  app.locals.pizza[id] = request.body;
-
-  response.sendStatus(201);
+app.get('/pizzas/:id', (request, response) => {
+	var pizza = app.locals.pizzas[request.params.id];
+	response.render('pizza', {pizza: pizza});
 });
 
 if (!module.parent) {
-app.listen(app.get('port'), () => {
-  console.log(`${app.locals.title} is running on ${app.get('port')}.`);
-});
+  app.listen(app.get('port'), () => {
+    console.log(`${app.locals.title} is running on ${app.get('port')}.`);
+  });
 }
-
 
 module.exports = app;
